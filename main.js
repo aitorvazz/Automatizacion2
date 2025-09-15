@@ -1,7 +1,8 @@
-const { Apify } = require('apify');
+const { Apify } = require('apify');  // Asegúrate de que Apify está importado correctamente
 const playwright = require('playwright');
 
 Apify.main(async () => {
+    // Lanza el navegador con Playwright
     const browser = await playwright.chromium.launch();
     const page = await browser.newPage();
     
@@ -12,10 +13,10 @@ Apify.main(async () => {
     await page.waitForSelector('#tipoContrato');  // Selector del filtro "Tipo de contrato"
     await page.waitForSelector('#estadoTramitacion');  // Selector del filtro "Estado de la tramitación"
 
-    // Aplicar filtro "Tipo de Contrato" (Suministros)
+    // Aplicar el filtro "Tipo de Contrato" (Suministros)
     await page.selectOption('#tipoContrato', '3'); // Valor para "Suministros"
     
-    // Aplicar filtro "Estado de la Tramitación" (Abierto / Plazo de presentación)
+    // Aplicar el filtro "Estado de la Tramitación" (Abierto / Plazo de presentación)
     await page.selectOption('#estadoTramitacion', '3'); // Valor para "Abierto / Plazo de presentación"
     
     // Hacer clic en el botón "Buscar"
@@ -57,4 +58,3 @@ Apify.main(async () => {
     // Cerrar el navegador
     await browser.close();
 });
-
