@@ -7,7 +7,7 @@
     "start": "node main.js"
   },
   "dependencies": {
-    "apify": "^3.4.5",
+    "apify": "^3.4.5",  // Asegúrate de que esta es una versión válida
     "playwright": "^1.55.0"
   },
   "devDependencies": {},
