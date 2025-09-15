@@ -1,4 +1,4 @@
-const { Apify } = require('apify');  // Asegúrate de que Apify esté correctamente importado
+const { Apify } = require('apify');  // Importa Apify correctamente
 const playwright = require('playwright');  // Usamos Playwright para interactuar con la página
 
 Apify.main(async () => {
