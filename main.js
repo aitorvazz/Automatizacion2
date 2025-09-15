@@ -1,12 +1,12 @@
-const { Apify } = require('apify');  // Asegúrate de que Apify esté importado correctamente
-const playwright = require('playwright');
+const { Apify } = require('apify');  // Asegúrate de importar Apify
+const playwright = require('playwright'); // Usamos Playwright para interactuar con la página
 
 Apify.main(async () => {
     // Lanza el navegador con Playwright
-    const browser = await playwright.chromium.launch();
+    const browser = await playwright.chromium.launch({ headless: true });
     const page = await browser.newPage();
     
-    // Ir a la página de contratación
+    // Ir a la página de contratación pública en Euskadi
     await page.goto('https://www.contratacion.euskadi.eus/webkpe00-kpeperfi/es/ac70cPublicidadWar/busquedaAnuncios?locale=es');
     
     // Esperar a que los filtros estén disponibles
@@ -14,12 +14,12 @@ Apify.main(async () => {
     await page.waitForSelector('#estadoTramitacion');  // Selector del filtro "Estado de la tramitación"
 
     // Aplicar el filtro "Tipo de Contrato" (Suministros)
-    await page.selectOption('#tipoContrato', '3'); // Valor para "Suministros"
+    await page.selectOption('#tipoContrato', '3'); // Seleccionamos "Suministros"
     
     // Aplicar el filtro "Estado de la Tramitación" (Abierto / Plazo de presentación)
-    await page.selectOption('#estadoTramitacion', '3'); // Valor para "Abierto / Plazo de presentación"
+    await page.selectOption('#estadoTramitacion', '3'); // Seleccionamos "Abierto / Plazo de presentación"
     
-    // Hacer clic en el botón "Buscar"
+    // Hacer clic en el botón "Buscar" (Asegúrate de que el selector sea correcto)
     await page.click('button[type="submit"]');  // Cambia el selector si es necesario
     await page.waitForSelector('.resultados-lista');  // Asegúrate de que los resultados se carguen
     
@@ -41,8 +41,8 @@ Apify.main(async () => {
 
         results = results.concat(data);
         
-        // Comprobar si hay una página siguiente
-        const nextPageButton = await page.$('a.pagination-next');  // Ajusta este selector según la paginación
+        // Verificar si hay siguiente página
+        const nextPageButton = await page.$('a.pagination-next');  // Asegúrate de que este selector funcione
         if (nextPageButton) {
             await nextPageButton.click();
             await page.waitForSelector('.resultado-item');  // Asegúrate de que los resultados estén visibles
