@@ -1,9 +1,8 @@
-const { Apify } = require('apify');  // Asegúrate de importar Apify
-const playwright = require('playwright'); // Usamos Playwright para interactuar con la página
+const { Apify } = require('apify');  // Asegúrate de que Apify esté correctamente importado
+const playwright = require('playwright');  // Usamos Playwright para interactuar con la página
 
 Apify.main(async () => {
-    // Lanza el navegador con Playwright
-    const browser = await playwright.chromium.launch({ headless: true });
+    const browser = await playwright.chromium.launch({ headless: true });  // Lanza el navegador sin UI
     const page = await browser.newPage();
     
     // Ir a la página de contratación pública en Euskadi
@@ -19,7 +18,7 @@ Apify.main(async () => {
     // Aplicar el filtro "Estado de la Tramitación" (Abierto / Plazo de presentación)
     await page.selectOption('#estadoTramitacion', '3'); // Seleccionamos "Abierto / Plazo de presentación"
     
-    // Hacer clic en el botón "Buscar" (Asegúrate de que el selector sea correcto)
+    // Hacer clic en el botón "Buscar"
     await page.click('button[type="submit"]');  // Cambia el selector si es necesario
     await page.waitForSelector('.resultados-lista');  // Asegúrate de que los resultados se carguen
     
