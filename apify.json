@@ -1,0 +1,10 @@
+{
+  "version": "v2",
+  "name": "euskadi-scraper",
+  "build": {
+    "system": "Docker",
+    "dockerFile": "Dockerfile"
+  },
+  "main": "main.js",
+  "inputSchema": "input-schema.json"
+}
