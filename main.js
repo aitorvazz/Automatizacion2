@@ -1,8 +1,8 @@
-const { Apify } = require('apify');  // Importa correctamente Apify
+const { Apify } = require('apify');  // Asegúrate de que Apify esté importado correctamente
 const playwright = require('playwright');  // Usamos Playwright para interactuar con la página
 
 Apify.main(async () => {
-    const browser = await playwright.chromium.launch({ headless: true });  // Lanzamos el navegador sin interfaz gráfica
+    const browser = await playwright.chromium.launch({ headless: true });  // Lanza el navegador sin interfaz gráfica
     const page = await browser.newPage();
     
     // Ir a la página de contratación pública en Euskadi
