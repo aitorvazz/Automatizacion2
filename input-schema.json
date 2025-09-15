@@ -1,0 +1,47 @@
+{
+    "title": "Scraping de Contratación Pública",
+    "description": "Este esquema permite configurar los parámetros de entrada para el scraping de anuncios de contratación pública.",
+    "type": "object",
+    "properties": {
+        "tipoContrato": {
+            "type": "string",
+            "title": "Tipo de Contrato",
+            "enum": [
+                "Administrativos especiales",
+                "Colaboración entre sector público y privado",
+                "Concesión de obra pública",
+                "Concesión de servicios",
+                "Contrato mixto",
+                "Obras",
+                "Otros",
+                "Privados",
+                "Servicios",
+                "Suministros",
+                "Suscripción"
+            ],
+            "default": "Suministros"
+        },
+        "estadoTramitacion": {
+            "type": "string",
+            "title": "Estado de la Tramitación",
+            "enum": [
+                "Abierto / Plazo de presentación",
+                "Adjudicación",
+                "Alerta temprana",
+                "Anulado",
+                "Desierto",
+                "Desistimiento / Renuncia",
+                "En redacción",
+                "Estado tramitación de anuncio previo",
+                "Finalizado",
+                "Formalizado / En ejecución",
+                "Histórico",
+                "Modificación contrato",
+                "Plazo cerrado",
+                "Suspension por recurso"
+            ],
+            "default": "Abierto / Plazo de presentación"
+        }
+    },
+    "required": ["tipoContrato", "estadoTramitacion"]
+}
