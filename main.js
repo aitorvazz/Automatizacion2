@@ -1,37 +1,38 @@
-const { Apify } = require('apify');  // Importa Apify correctamente
+const { Apify } = require('apify');  // Asegúrate de importar Apify correctamente
 const playwright = require('playwright');  // Usamos Playwright para interactuar con la página
 
 Apify.main(async () => {
-    const browser = await playwright.chromium.launch({ headless: true });  // Lanza el navegador sin UI
+    // Lanzamos el navegador sin interfaz gráfica (headless)
+    const browser = await playwright.chromium.launch({ headless: true });
     const page = await browser.newPage();
     
-    // Ir a la página de contratación pública en Euskadi
+    // Vamos a la página de contratación
     await page.goto('https://www.contratacion.euskadi.eus/webkpe00-kpeperfi/es/ac70cPublicidadWar/busquedaAnuncios?locale=es');
     
-    // Esperar a que los filtros estén disponibles
+    // Esperamos a que los filtros estén visibles
     await page.waitForSelector('#tipoContrato');  // Selector del filtro "Tipo de contrato"
     await page.waitForSelector('#estadoTramitacion');  // Selector del filtro "Estado de la tramitación"
 
-    // Aplicar el filtro "Tipo de Contrato" (Suministros)
+    // Aplicamos el filtro "Tipo de Contrato" (Suministros)
     await page.selectOption('#tipoContrato', '3'); // Seleccionamos "Suministros"
     
-    // Aplicar el filtro "Estado de la Tramitación" (Abierto / Plazo de presentación)
+    // Aplicamos el filtro "Estado de la Tramitación" (Abierto / Plazo de presentación)
     await page.selectOption('#estadoTramitacion', '3'); // Seleccionamos "Abierto / Plazo de presentación"
     
-    // Hacer clic en el botón "Buscar"
+    // Hacemos clic en "Buscar"
     await page.click('button[type="submit"]');  // Cambia el selector si es necesario
-    await page.waitForSelector('.resultados-lista');  // Asegúrate de que los resultados se carguen
+    await page.waitForSelector('.resultados-lista');  // Esperamos a que los resultados se carguen
     
     let results = [];
     let pageNumber = 1;
 
-    // Navegar a través de las páginas de resultados
+    // Navegamos por las páginas de resultados
     while (true) {
         const data = await page.evaluate(() => {
             const resultsArray = [];
-            const items = document.querySelectorAll('.resultado-item');  // Ajusta este selector según los resultados
+            const items = document.querySelectorAll('.resultado-item');  // Asegúrate de que este selector funcione
             items.forEach(item => {
-                const title = item.querySelector('.titulo').innerText;  // Ajusta el selector de título
+                const title = item.querySelector('.titulo').innerText;  // Ajusta el selector del título
                 const description = item.querySelector('.descripcion').innerText;  // Ajusta el selector de descripción
                 resultsArray.push({ title, description });
             });
@@ -40,20 +41,20 @@ Apify.main(async () => {
 
         results = results.concat(data);
         
-        // Verificar si hay siguiente página
+        // Verificamos si hay más páginas
         const nextPageButton = await page.$('a.pagination-next');  // Asegúrate de que este selector funcione
         if (nextPageButton) {
             await nextPageButton.click();
             await page.waitForSelector('.resultado-item');  // Asegúrate de que los resultados estén visibles
             pageNumber++;
         } else {
-            break;  // Si no hay más páginas, termina el scraping
+            break;  // Si no hay más páginas, terminamos el scraping
         }
     }
 
-    // Imprimir los resultados
+    // Mostramos los resultados en consola
     console.log(results);
 
-    // Cerrar el navegador
+    // Cerramos el navegador
     await browser.close();
 });
