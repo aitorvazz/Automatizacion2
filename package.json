@@ -7,7 +7,7 @@
     "start": "node main.js"
   },
   "dependencies": {
-    "apify": "^3.5.0",  // Asegúrate de tener la última versión de Apify
+    "apify": "^3.5.0",
     "playwright": "^1.55.0"
   },
   "devDependencies": {},
