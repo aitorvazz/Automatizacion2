@@ -6,7 +6,7 @@ COPY . ./
 # Instalar las dependencias necesarias
 RUN npm install --quiet --only=prod --no-optional
 
-# Verificar que las dependencias se han instalado correctamente
+# Verificar que Apify y Playwright están instalados correctamente
 RUN npm list apify
 RUN npm list playwright
 
